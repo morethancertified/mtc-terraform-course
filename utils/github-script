@@ -1,0 +1,1 @@
+unset GITHUB_TOKEN && gh auth login -h github.com -p https -s delete_repo -w

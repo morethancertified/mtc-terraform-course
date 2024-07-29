@@ -1,0 +1,1 @@
+#varsource = "prod.auto.tfvars"
