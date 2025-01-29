@@ -3,7 +3,7 @@ locals {
     infra = {
       lang     = "terraform",
       filename = "main.tf",
-      pages    = true
+      pages    = false
     },
     backend = {
       lang     = "python",
@@ -13,7 +13,7 @@ locals {
     frontend = {
       lang     = "javascript",
       filename = "main.js",
-      pages    = true
+      pages    = false
     }
   }
 }

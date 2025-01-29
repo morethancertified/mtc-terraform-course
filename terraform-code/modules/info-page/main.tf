@@ -10,7 +10,7 @@ resource "github_repository" "this" {
     }
   }
   provisioner "local-exec" {
-    command = "gh repo view ${self.name} --web"
+    command = var.run_provisioners ? "gh repo view ${self.name} --web" : "echo 'Skip repo view'"
   }
 }
 
@@ -31,4 +31,17 @@ resource "github_repository_file" "this" {
     date   = time_static.this.year,
     repos  = var.repos
   })
+}
+
+check "health_check" {
+  data "http" "info_page" {
+    url = github_repository.this.pages[0].html_url
+    retry {
+      attempts = 5
+    }
+  }
+  assert {
+    condition = data.http.info_page.status_code == 200
+    error_message = "${data.http.info_page.url} is unhealthy"
+  }
 }

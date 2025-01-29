@@ -26,6 +26,12 @@ variable "repos" {
   }
 }
 
+variable "run_provisioners" {
+  type        = bool
+  description = "Whether to run provisioners."
+  default     = false
+}
+
 # variable "visibility" {
 #     type = string
 #     description = "Visibility of the repo."

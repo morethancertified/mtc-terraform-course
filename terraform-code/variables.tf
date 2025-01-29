@@ -8,4 +8,4 @@ variable "environments" {
   description = "A map of environments to create repos for"
   type        = set(string)
   default     = ["dev", "prod"]
-  }
+}
