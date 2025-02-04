@@ -50,3 +50,9 @@ resource "aws_subnet" "this" {
     Name = "mtc-ecs-${each.key}"
   }
 }
+
+resource "aws_route_table_association" "this" {
+  for_each       = aws_subnet.this
+  subnet_id      = aws_subnet.this[each.key].id
+  route_table_id = aws_route_table.this.id
+}
