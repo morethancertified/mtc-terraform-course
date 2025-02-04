@@ -1,1 +1,17 @@
-{"backend":{"filename":"main.py","lang":"python","pages":false},"frontend":{"filename":"main.js","lang":"javascript","pages":false},"infra":{"filename":"main.tf","lang":"terraform","pages":false}}
+{
+    "backend": {
+        "filename": "main.py",
+        "lang": "python",
+        "pages": false
+    },
+    "frontend": {
+        "filename": "main.js",
+        "lang": "javascript",
+        "pages": false
+    },
+    "infra": {
+        "filename": "main.tf",
+        "lang": "terraform",
+        "pages": false
+    }
+}
