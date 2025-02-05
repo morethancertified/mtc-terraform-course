@@ -30,17 +30,3 @@ resource "terraform_data" "build" {
   }
 }
 
-resource "terraform_data" "push" {
-  triggers_replace = [
-    var.image_version
-  ]
-  depends_on = [terraform_data.login, terraform_data.build]
-  provisioner "local-exec" {
-    command = <<EOT
-        docker image tag ${local.ecr_url} ${local.ecr_url}:${var.image_version}
-        docker image tag ${local.ecr_url} ${local.ecr_url}:latest
-        docker image push ${local.ecr_url}:${var.image_version}
-        docker image push ${local.ecr_url}:latest
-        EOT
-  }
-}
