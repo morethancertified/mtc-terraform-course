@@ -83,17 +83,17 @@ resource "aws_ecs_service" "this" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.this.arn
+    target_group_arn = aws_lb_target_group.ecs_tg.arn
     container_name   = var.app_name
     container_port   = var.port
   }
 }
 
-resource "aws_lb_target_group" "this" {
-  name        = "mtc-ecs-tg"
-  port        = var.port
+resource "aws_lb_target_group" "ecs_tg" {
+  name        = "ecs-target-group"
+  port        = 80
   protocol    = "HTTP"
-  target_type = "ip"
   vpc_id      = var.vpc_id
+  target_type = "ip"
 }
 
