@@ -21,3 +21,20 @@ variable "port" {
 variable "execution_role_arn" {
   type = string
 }
+
+variable "app_security_group_id" {
+  type = string
+}
+
+variable "subnets" {
+  type = list(string)
+}
+
+variable "is_public" {
+  type    = bool
+  default = true
+}
+
+variable "cluster_arn" {
+  type = string
+}

@@ -117,3 +117,34 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
   role       = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+
+# app security group
+
+resource "aws_security_group" "app" {
+  vpc_id = aws_vpc.this.id
+  tags = {
+    Name = "mtc-ecs-app"
+  }
+}
+
+# ingress rule <- alb security group
+
+resource "aws_vpc_security_group_ingress_rule" "app" {
+  security_group_id            = aws_security_group.app.id
+  referenced_security_group_id = aws_security_group.alb.id
+  ip_protocol                  = "-1"
+  tags = {
+    Name = "allow-all-from-alb"
+  }
+}
+
+# egress rule -> world
+
+resource "aws_vpc_security_group_egress_rule" "app" {
+  security_group_id = aws_security_group.app.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+  tags = {
+    Name = "allow-all"
+  }
+}
