@@ -20,4 +20,6 @@ module "app" {
   cluster_arn           = module.infra.cluster_arn
   is_public             = true
   vpc_id                = module.infra.vpc_id
+  path_pattern          = "/*"
+  alb_listener_arn      = module.infra.alb_listener_arn
 }

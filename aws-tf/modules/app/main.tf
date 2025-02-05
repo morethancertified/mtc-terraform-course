@@ -83,13 +83,13 @@ resource "aws_ecs_service" "this" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.ecs_tg.arn
+    target_group_arn = aws_lb_target_group.this.arn
     container_name   = var.app_name
     container_port   = var.port
   }
 }
 
-resource "aws_lb_target_group" "ecs_tg" {
+resource "aws_lb_target_group" "this" {
   name        = "ecs-target-group"
   port        = 80
   protocol    = "HTTP"
@@ -97,3 +97,15 @@ resource "aws_lb_target_group" "ecs_tg" {
   target_type = "ip"
 }
 
+resource "aws_lb_listener_rule" "http_rule" {
+  listener_arn = var.alb_listener_arn
+  condition {
+    path_pattern {
+      values = [var.path_pattern]
+    }
+  }
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.this.arn
+  }
+}

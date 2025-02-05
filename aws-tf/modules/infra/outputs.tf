@@ -17,3 +17,7 @@ output "cluster_arn" {
 output "vpc_id" {
   value = aws_vpc.this.id
 }
+
+output "alb_listener_arn" {
+  value = aws_lb_listener.this.arn
+}
