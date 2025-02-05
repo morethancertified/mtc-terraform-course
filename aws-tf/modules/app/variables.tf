@@ -38,3 +38,7 @@ variable "is_public" {
 variable "cluster_arn" {
   type = string
 }
+
+variable "vpc_id" {
+  type = string
+}
