@@ -30,3 +30,41 @@ resource "terraform_data" "build" {
   }
 }
 
+resource "terraform_data" "push" {
+  triggers_replace = [
+    var.image_version
+  ]
+  depends_on = [terraform_data.login, terraform_data.build]
+  provisioner "local-exec" {
+    command = <<EOT
+        docker image tag ${local.ecr_url} ${local.ecr_url}:${var.image_version}
+        docker image tag ${local.ecr_url} ${local.ecr_url}:latest
+        docker image push ${local.ecr_url}:${var.image_version}
+        docker image push ${local.ecr_url}:latest
+        EOT
+  }
+}
+
+resource "aws_ecs_task_definition" "this" {
+  family = "${var.app_name}-task"
+  requires_compatibilities = ["FARGATE"]
+  network_mode = "awsvpc"
+  cpu = "256"
+  memory = "512"
+  execution_role_arn = var.execution_role_arn
+  container_definitions = jsonencode([
+    {
+      name      = var.app_name
+      image     = "${local.ecr_url}:latest"
+      cpu       = 256
+      memory    = 512
+      essential = true
+      portMappings = [
+        {
+          containerPort = var.port
+          hostPort      = var.port
+        }
+      ]
+    }
+  ])
+}

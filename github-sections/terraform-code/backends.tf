@@ -4,13 +4,13 @@
 #   }
 # }
 
-terraform { 
-  cloud { 
-    
-    organization = "mtc-tf-2024" 
+terraform {
+  cloud {
 
-    workspaces { 
-      name = "dev" 
-    } 
-  } 
+    organization = "mtc-tf-2024"
+
+    workspaces {
+      name = "dev"
+    }
+  }
 }
