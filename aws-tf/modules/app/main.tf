@@ -81,6 +81,19 @@ resource "aws_ecs_service" "this" {
     security_groups  = [var.app_security_group_id]
     assign_public_ip = var.is_public
   }
-  # load_balancer {}
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.ecs_tg.arn
+    container_name   = var.app_name
+    container_port   = var.port
+  }
+}
+
+resource "aws_lb_target_group" "ecs_tg" {
+  name        = "ecs-target-group"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
 }
 

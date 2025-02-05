@@ -13,3 +13,7 @@ output "public_subnets" {
 output "cluster_arn" {
   value = aws_ecs_cluster.this.arn
 }
+
+output "vpc_id" {
+  value = aws_vpc.this.id
+}
