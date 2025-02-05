@@ -46,12 +46,12 @@ resource "terraform_data" "push" {
 }
 
 resource "aws_ecs_task_definition" "this" {
-  family = "${var.app_name}-task"
+  family                   = "${var.app_name}-task"
   requires_compatibilities = ["FARGATE"]
-  network_mode = "awsvpc"
-  cpu = "256"
-  memory = "512"
-  execution_role_arn = var.execution_role_arn
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+  execution_role_arn       = var.execution_role_arn
   container_definitions = jsonencode([
     {
       name      = var.app_name
@@ -68,3 +68,19 @@ resource "aws_ecs_task_definition" "this" {
     }
   ])
 }
+
+resource "aws_ecs_service" "this" {
+  name            = "${var.app_name}-service"
+  # cluster         = var.cluster_arn
+  task_definition = aws_ecs_task_definition.this.arn
+  launch_type     = "FARGATE"
+  desired_count   = 1
+
+  network_configuration {
+    # subnets          = var.subnets
+    # security_groups  = [var.security_group]
+    # assign_public_ip = var.is_public
+  }
+  # load_balancer {}
+}
+

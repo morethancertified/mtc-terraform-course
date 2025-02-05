@@ -12,7 +12,7 @@ module "app" {
   ecr_repository_name = "ui"
   app_path            = "ui"
   image_version       = "1.0.1"
-  app_name = "ui"
-  port = 80
-  execution_role_arn = module.infra.execution_role_arn
+  app_name            = "ui"
+  port                = 80
+  execution_role_arn  = module.infra.execution_role_arn
 }
