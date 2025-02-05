@@ -62,7 +62,7 @@ resource "aws_lb" "this" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets = [for subnet in aws_subnet.this : subnet.id]
+  subnets            = [for subnet in aws_subnet.this : subnet.id]
 }
 
 resource "aws_lb_listener" "this" {
@@ -85,4 +85,13 @@ resource "aws_security_group" "alb" {
   tags = {
     Name = "mtc-ecs-alb"
   }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "alb" {
+  for_each          = var.allowed_ips
+  security_group_id = aws_security_group.alb.id
+  cidr_ipv4         = each.value
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
 }
