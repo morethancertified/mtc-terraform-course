@@ -14,5 +14,5 @@ module "deploy-key" {
 }
 
 output "clone_urls" {
-    value = module.repos.clone_urls
+    value = module.repos
 }
