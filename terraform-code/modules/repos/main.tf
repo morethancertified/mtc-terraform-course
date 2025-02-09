@@ -12,3 +12,7 @@ module "deploy-key" {
   source    = "./deploy-key"
   repo_name = each.key
 }
+
+output "clone_urls" {
+    value = module.repos.clone_urls
+}
