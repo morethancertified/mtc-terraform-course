@@ -10,7 +10,7 @@ data "terraform_remote_state" "infra" {
 }
 
 locals {
-  repos = { for k, v in data.terraform_remote_state.infra.outputs["prod"].clone-urls : k => v }
+  repos = { for k, v in data.terraform_remote_state.infra.outputs.clone_urls["prod"].clone-urls : k => v }
 }
 
 resource "github_repository" "this" {
