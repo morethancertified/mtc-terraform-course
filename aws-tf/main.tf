@@ -13,7 +13,7 @@ data "terraform_remote_state" "infra" {
   config = {
     organization = "mtc-tf-2024"
     workspaces = {
-      name = "ecs-infra"
+      name = "ecs-infra-gh"
     }
   }
 }
