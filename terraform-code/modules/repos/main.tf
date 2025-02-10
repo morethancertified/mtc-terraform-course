@@ -4,12 +4,12 @@
 # }
 
 module "repos" {
-  source           = "./modules/dev-repos"
-  for_each         = var.environments
-  repo_max         = 9
-  env              = each.key
+  source   = "./modules/dev-repos"
+  for_each = var.environments
+  repo_max = 9
+  env      = each.key
   # repos            = jsondecode(file("repos.json"))
-  repos = { for v in csvdecode(file("repos.csv")) : v["environment"] => {for x, y  in v : x => lower(y) }}
+  repos            = { for v in csvdecode(file("repos.csv")) : v["environment"] => { for x, y in v : x => lower(y) } }
   run_provisioners = false
 }
 

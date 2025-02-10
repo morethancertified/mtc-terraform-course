@@ -1,3 +1,18 @@
+data "terraform_remote_state" "repos" {
+  backend = "remote"
+  config = {
+    organization = "mtc-tf-2024"
+    workspaces = {
+      name = "mtc-repos"
+    }
+  }
+}
+
+locals {
+  repos = { for k, v in data.terraform_remote_state.infra.outputs.clone_urls["prod"].clone-urls : k => v }
+}
+
+
 resource "github_repository" "this" {
   name        = "mtc_info_page"
   description = "Repository Information for MTC"
@@ -29,7 +44,7 @@ resource "github_repository_file" "this" {
     avatar = data.github_user.current.avatar_url,
     name   = data.github_user.current.name,
     date   = time_static.this.year,
-    repos  = var.repos
+    repos  = local.repos
   })
 }
 
@@ -41,7 +56,7 @@ check "health_check" {
     }
   }
   assert {
-    condition = data.http.info_page.status_code == 200
+    condition     = data.http.info_page.status_code == 200
     error_message = "${data.http.info_page.url} is unhealthy"
   }
 }
