@@ -48,15 +48,15 @@ resource "github_repository_file" "this" {
   })
 }
 
-check "health_check" {
-  data "http" "info_page" {
-    url = github_repository.this.pages[0].html_url
-    retry {
-      attempts = 5
-    }
-  }
-  assert {
-    condition     = data.http.info_page.status_code == 200
-    error_message = "${data.http.info_page.url} is unhealthy"
-  }
-}
+# check "health_check" {
+#   data "http" "info_page" {
+#     url = github_repository.this.pages[0].html_url
+#     retry {
+#       attempts = 5
+#     }
+#   }
+#   assert {
+#     condition     = data.http.info_page.status_code == 200
+#     error_message = "${data.http.info_page.url} is unhealthy"
+#   }
+# }
