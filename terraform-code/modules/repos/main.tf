@@ -1,7 +1,7 @@
-resource "local_file" "repos" {
-  content = jsonencode(local.repos)
-  filename = "${path.module}/repos.json"
-}
+# resource "local_file" "repos" {
+#   content = jsonencode(local.repos)
+#   filename = "${path.module}/repos.json"
+# }
 
 module "repos" {
   source           = "./modules/dev-repos"
