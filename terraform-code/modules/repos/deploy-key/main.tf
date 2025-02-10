@@ -1,5 +1,5 @@
 variable "repo_name" {
-  description = "Name of the repositories that need a key."
+  description = "Name of the repos that need a key."
   type        = string
 }
 
