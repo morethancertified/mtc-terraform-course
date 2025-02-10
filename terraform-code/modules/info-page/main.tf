@@ -62,5 +62,5 @@ check "health_check" {
 }
 
 output "info_page_url" {
-  value = github_repository.this.html_url
+  value = github_repository.this.pages[0].html_url
 }
