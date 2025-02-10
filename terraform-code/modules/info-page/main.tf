@@ -4,7 +4,7 @@ data "terraform_remote_state" "infra" {
   config = {
     organization = "mtc-tf-2024"
     workspaces = {
-      name = "dev-repos"
+      name = "repos-module"
     }
   }
 }
