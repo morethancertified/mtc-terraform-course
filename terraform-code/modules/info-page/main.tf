@@ -60,3 +60,7 @@ check "health_check" {
     error_message = "${data.http.info_page.url} is unhealthy"
   }
 }
+
+output "info_page_url" {
+  value = github_repository.this.html_url
+}
