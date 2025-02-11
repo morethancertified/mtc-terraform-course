@@ -8,5 +8,5 @@ terraform {
 }
 
 provider "github" {
-  owner = "morethancertifed"
+  owner = "morethancertified"
 }
