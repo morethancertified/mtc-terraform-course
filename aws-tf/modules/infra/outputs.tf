@@ -10,6 +10,10 @@ output "public_subnets" {
   value = [for i in aws_subnet.this : i.id]
 }
 
+# output "subnets" {
+#   value = aws_subnet.this
+# }
+
 output "cluster_arn" {
   value = aws_ecs_cluster.this.arn
 }

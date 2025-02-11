@@ -62,7 +62,8 @@ resource "aws_lb" "this" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets            = [for subnet in aws_subnet.this : subnet.id]
+  # subnets            = [for subnet in aws_subnet.this : subnet.id]
+  subnets = [for az, id in { for s in aws_subnet.this : s.availability_zone => s.id... } : id[0]]
 }
 
 resource "aws_lb_listener" "this" {
