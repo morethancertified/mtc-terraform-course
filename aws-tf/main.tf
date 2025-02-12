@@ -1,41 +1,27 @@
-# Root Main.tf
+# # Root Main.tf
 
-locals {
-  apps = {
-    ui = {
-      ecr_repository_name = "ui"
-      app_path            = "ui"
-      image_version       = "1.0.1"
-      app_name            = "ui"
-      port                = 80
-      is_public           = true
-      path_pattern        = "/*"
-    }
-    api = {
-      ecr_repository_name = "api"
-      app_path            = "api"
-      image_version       = "1.0.1"
-      app_name            = "api"
-      port                = 80
-      is_public           = true
-      path_pattern        = "/*"
-    }
-  }
-}
-
-locals {
-  env_config = {
-    dev  = { cidr = "10.1.0.0/16", num_subnets = 2, allowed_ips = ["127.0.0.1/32"] }
-    prod = { cidr = "10.2.0.0/16", num_subnets = 4, allowed_ips = ["0.0.0.0/0"] }
-  }
-}
-
-module "infra" {
-  source      = "./modules/infra"
-  vpc_cidr    = local.env_config[terraform.workspace].cidr
-  num_subnets = local.env_config[terraform.workspace].num_subnets
-  allowed_ips = local.env_config[terraform.workspace].allowed_ips
-}
+# locals {
+#   apps = {
+#     ui = {
+#       ecr_repository_name = "ui"
+#       app_path            = "ui"
+#       image_version       = "1.0.1"
+#       app_name            = "ui"
+#       port                = 80
+#       is_public           = true
+#       path_pattern        = "/*"
+#     }
+#     api = {
+#       ecr_repository_name = "api"
+#       app_path            = "api"
+#       image_version       = "1.0.1"
+#       app_name            = "api"
+#       port                = 80
+#       is_public           = true
+#       path_pattern        = "/*"
+#     }
+#   }
+# }
 
 # module "infra" {
 #   source      = "./modules/infra"
@@ -61,3 +47,7 @@ module "infra" {
 #   vpc_id                = module.infra.vpc_id
 #   alb_listener_arn      = module.infra.alb_listener_arn
 # }
+
+resource "aws_vpc" "this" {
+  cidr_block = "10.0.0.0/16"
+}
