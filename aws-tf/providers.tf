@@ -12,7 +12,6 @@ provider "aws" {
   default_tags {
     tags = {
       App       = "mtc-app"
-      Workspace = terraform.workspace
     }
   }
 }
