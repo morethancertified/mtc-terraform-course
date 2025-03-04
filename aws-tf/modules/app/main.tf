@@ -22,6 +22,9 @@ resource "terraform_data" "login" {
 }
 
 resource "terraform_data" "build" {
+  triggers_replace = [
+    var.image_version
+  ]
   depends_on = [terraform_data.login]
   provisioner "local-exec" {
     command = <<EOT
@@ -54,11 +57,13 @@ resource "aws_ecs_task_definition" "this" {
   execution_role_arn       = var.execution_role_arn
   container_definitions = jsonencode([
     {
-      name      = var.app_name
-      image     = "${local.ecr_url}:latest"
-      cpu       = 256
-      memory    = 512
-      essential = true
+      name        = var.app_name
+      image       = "${local.ecr_url}:${var.image_version}"
+      cpu         = 256
+      memory      = 512
+      essential   = true
+      environment = var.envars
+      secrets     = var.secrets
       portMappings = [
         {
           containerPort = var.port
@@ -90,15 +95,20 @@ resource "aws_ecs_service" "this" {
 }
 
 resource "aws_lb_target_group" "this" {
-  name        = "ecs-target-group"
-  port        = 80
+  name        = "${var.app_name}-target-group"
+  port        = var.port
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
+  health_check {
+    enabled = true
+    path    = var.healthcheck_path
+  }
 }
 
 resource "aws_lb_listener_rule" "http_rule" {
   listener_arn = var.alb_listener_arn
+  priority     = var.lb_priority
   condition {
     path_pattern {
       values = [var.path_pattern]

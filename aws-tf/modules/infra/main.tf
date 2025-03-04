@@ -12,15 +12,10 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_internet_gateway" "this" {
-
+  vpc_id = aws_vpc.this.id
   tags = {
     Name = "mtc-ecs"
   }
-}
-
-resource "aws_internet_gateway_attachment" "this" {
-  internet_gateway_id = aws_internet_gateway.this.id
-  vpc_id              = aws_vpc.this.id
 }
 
 resource "aws_route_table" "this" {
@@ -98,6 +93,27 @@ resource "aws_iam_role" "ecs_execution_role" {
     }]
   })
 }
+
+resource "aws_iam_policy" "ecs_secrets_policy" {
+  name        = "ecs-secrets-policy"
+  description = "Allow ECS tasks to retrieve all secrets from Secrets Manager"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["secretsmanager:GetSecretValue"]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_secrets_policy_attach" {
+  role       = aws_iam_role.ecs_execution_role.name
+  policy_arn = aws_iam_policy.ecs_secrets_policy.arn
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
   role       = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"

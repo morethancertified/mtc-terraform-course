@@ -1,6 +1,13 @@
-FROM nginx:latest
+FROM python:3.9-slim-buster
 
-EXPOSE 80
+WORKDIR /app
 
-# Start NGINX
-CMD ["nginx", "-g", "daemon off;"]
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+ENV FLASK_APP=app.py
+
+CMD ["flask", "run", "--host=0.0.0.0"]

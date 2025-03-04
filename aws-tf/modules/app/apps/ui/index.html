@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform Quiz</title>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Inline Tailwind CSS -->
+    <style>
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold text-center mb-6">Terraform Quiz</h1>
+        <div id="question-container" class="bg-white p-6 rounded-lg shadow-md mb-4">
+            <p id="question-text" class="mb-4">Loading question...</p>
+            <textarea id="answer-input" placeholder="Your answer here..." class="w-full p-2 border rounded-md"></textarea>
+            <button id="submit-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Submit Answer</button>
+            <button id="new-question-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2 ml-2">New Question</button>
+        </div>
+        <div id="feedback-container" class="bg-white p-6 rounded-lg shadow-md hidden">
+            <h2 class="text-xl font-semibold mb-2">Feedback:</h2>
+            <p id="feedback-text"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

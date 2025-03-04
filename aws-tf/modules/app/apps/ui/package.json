@@ -1,0 +1,10 @@
+{
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "Frontend for Terraform Quiz App",
+    "scripts": {
+      "start": " " 
+    },
+    "author": "",
+    "license": "ISC"
+  }
