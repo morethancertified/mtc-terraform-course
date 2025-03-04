@@ -1,8 +1,8 @@
 # Root Main.tf
 
-data "aws_secretsmanager_secret" "openai_api_key" {
-  name = "openaikey"
-}
+# data "aws_secretsmanager_secret" "openai_api_key" {
+#   name = "openaikey"
+# }
 
 locals {
   apps = {
@@ -29,10 +29,25 @@ locals {
       path_pattern        = "/api/*"
       lb_priority         = 10
       healthcheck_path    = "/api/healthcheck"
-      secrets             = [{ name = "OPENAI_API_KEY", valueFrom = data.aws_secretsmanager_secret.openai_api_key.arn }]
+      secrets             = [{ name = "OPENAI_API_KEY", valueFrom = aws_secretsmanager_secret.openai_api_key.arn }]
       envars              = [{}]
     }
   }
+}
+
+variable "openai_api_key" {
+  type      = string
+  sensitive = true
+}
+
+resource "aws_secretsmanager_secret" "openai_api_key" {
+  name = "openai_api_key_3"
+}
+
+resource "aws_secretsmanager_secret_version" "openai_api_key" {
+  secret_id                = aws_secretsmanager_secret.openai_api_key.id
+  secret_string_wo         = var.openai_api_key
+  secret_string_wo_version = 1
 }
 
 module "infra" {
